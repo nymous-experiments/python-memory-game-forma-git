@@ -6,14 +6,12 @@ File: Final.py
 import os
 import random
 import sys
-import tkinter
 import time
+import tkinter
+from tkinter import PhotoImage, messagebox
 
-from PIL import ImageTk
-from tkinter import messagebox
-
-from intro import choose_level
-from intro import choose_mode
+from intro import choose_level, choose_mode
+from outro import show_victory
 
 MODE = choose_mode()
 LEVEL = choose_level()
@@ -24,7 +22,7 @@ ROUTE = MODE[1]
 
 def main():
     root = tkinter.Tk()
-    root.title("Pairs")
+    root.title("Memory")
     root.geometry("+200+100")
     root.resizable(0, 0)
     root.bind("<Escape>", lambda event: exit())
@@ -42,13 +40,17 @@ def restart(root):
 def draw_board(root):
     start_time = time.time()
     answers = make_answers(root)
-    default_image = ImageTk.PhotoImage(master=root, file="images/default.png")
+    default_image = PhotoImage(master=root, file="images/default.png")
     buttons = []
     for row in range(COL_SIZE):
         for col in range(ROW_SIZE):
-            button = tkinter.Button(root, image=default_image,
-                                    command=lambda row=row, column=col:
-                                    change_label(buttons, row, column, answers, root, default_image, start_time))
+            button = tkinter.Button(
+                root,
+                image=default_image,
+                command=lambda row=row, column=col: change_label(
+                    buttons, row, column, answers, root, default_image, start_time
+                ),
+            )
             buttons.append(button)
             button.grid(column=col, row=row)
     buttons = set_on_board(buttons)
@@ -58,7 +60,7 @@ def draw_board(root):
 def set_on_board(raw_list):
     set_list = []
     for i in range(0, len(raw_list), ROW_SIZE):
-        set_list.append(raw_list[i:i + ROW_SIZE])
+        set_list.append(raw_list[i : i + ROW_SIZE])
     return set_list
 
 
@@ -66,8 +68,8 @@ def make_answers(root):
     cards_total = ROW_SIZE * COL_SIZE // 2
     answers = []
     for i in range(cards_total):
-        route = ROUTE + str(i) + '.png'
-        image = ImageTk.PhotoImage(master=root, file=route)
+        route = ROUTE + str(i) + ".png"
+        image = PhotoImage(master=root, file=route)
         answers.append(image)
         answers.append(image)
     random.shuffle(answers)
@@ -86,10 +88,15 @@ def change_label(buttons, row, col, answers, root, default_image, start_time):
             buttons[x][y].config(state=tkinter.DISABLED, bg="white")
             if is_over(buttons):
                 time_passed = int(time.time() - start_time)
-                messagebox.showinfo(title="Success!", message="Time: " + str(time_passed) + " sec")
+                messagebox.showinfo(
+                    title="Success!", message="Time: " + str(time_passed) + " sec"
+                )
+                show_victory(root)
                 buttons[row][col].after(1000, draw_board, root)
         else:
-            buttons[row][col].after(800, hide_buttons, buttons, row, col, x, y, default_image)
+            buttons[row][col].after(
+                800, hide_buttons, buttons, row, col, x, y, default_image
+            )
 
 
 def is_first(buttons):
