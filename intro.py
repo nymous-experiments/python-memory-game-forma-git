@@ -13,15 +13,16 @@ def choose_mode():
     intro_root.geometry("+300+100")
     intro_root.resizable(0, 0)
     intro_root.bind("<Escape>", lambda event: exit())
+    # TODO: Finir de traduire les règles
     rules = Label(
         text="""
 1. Cliquer sur deux cartes pour les retourner.
 2. Si les deux cartes sont identiques, elle resteront face visibles.
 3. Sinon elles seront masquées.
 4. Le jeu se termine lorsque toutes les cartes sont visibles.
-5. Une nouvelle partie se lance automatiquement.
-6. Appuyer sur ENTRÉE pour changer de mode.
-7. Appuyer sur ÉCHAP pour quitter.
+5. A new game starts automatically.
+6. Press ENTER to change mode.
+7. Press ESCAPE to exit.
         """,
         width="60",
         bg="misty rose",
@@ -88,13 +89,14 @@ def choose_level():
         command=lambda rows=4, cols=6: clicked(rows, cols, level_root, chosen_level),
     )
     lvl2.pack(side=LEFT)
-    lvl3 = Button(
-        text="DIFFICILE",
-        width="15",
-        height="5",
-        bg="lavender",
-        command=lambda rows=5, cols=8: clicked(rows, cols, level_root, chosen_level),
-    )
-    lvl3.pack(side=LEFT)
+    # TODO: Ajouter un mode très difficile
+    # lvl3 = Button(
+    #     text="DIFFICILE",
+    #     width="15",
+    #     height="5",
+    #     bg="lavender",
+    #     command=lambda rows=5, cols=8: clicked(rows, cols, level_root, chosen_level),
+    # )
+    # lvl3.pack(side=LEFT)
     level_root.mainloop()
     return chosen_level

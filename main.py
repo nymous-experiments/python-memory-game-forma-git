@@ -91,7 +91,8 @@ def change_label(buttons, row, col, answers, root, default_image, start_time):
                 messagebox.showinfo(
                     title="Success!", message="Time: " + str(time_passed) + " sec"
                 )
-                show_victory(root)
+                # TODO: Montrer un écran de victoire au lieu de recommencer
+                # Code à utiliser : show_victory(root)
                 buttons[row][col].after(1000, draw_board, root)
         else:
             buttons[row][col].after(
@@ -132,7 +133,10 @@ def is_over(buttons):
             button = buttons[row][col]
             if button["state"] != tkinter.DISABLED:
                 counter += 1
-    return counter == 0
+    # TODO: Corriger ce bug
+    # Remplacer le return False par return counter == 0
+    return False
+    # return counter == 0
 
 
 if __name__ == "__main__":
